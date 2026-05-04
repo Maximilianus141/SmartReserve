@@ -1,5 +1,6 @@
 package ch.kenner.maximilian.smartreserve.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ public class Service {
 
     @Id
     @GeneratedValue
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Auto-generated database ID")
     private Long id;
 
     @Column(nullable = false)
