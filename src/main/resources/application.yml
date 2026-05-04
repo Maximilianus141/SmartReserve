@@ -11,5 +11,10 @@ spring:
     username: postgres
     password: admin
     driverClassName: org.postgresql.Driver
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/smartreserve
 server:
   port: 9090
