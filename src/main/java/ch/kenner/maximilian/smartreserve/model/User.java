@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "app_user")
 public class User {
     @Id
-    @Schema(hidden = true)
     private String id;
 
     @NotEmpty
