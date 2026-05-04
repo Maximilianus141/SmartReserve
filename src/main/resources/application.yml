@@ -1,3 +1,15 @@
 spring:
   application:
     name: smartreserve
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/m-295-smartreserve
+    username: postgres
+    password: admin
+    driverClassName: org.postgresql.Driver
+server:
+  port: 9090
