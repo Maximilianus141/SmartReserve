@@ -2,14 +2,12 @@ package ch.kenner.maximilian.smartreserve.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DialectOverride;
 
-import java.time.Duration;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +15,7 @@ import java.time.Duration;
 public class Service {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
@@ -27,9 +26,10 @@ public class Service {
     @NotEmpty
     private String description;
 
-    @NotEmpty
+    @NotNull(message = "Duration must be provided")
+    @Positive(message = "Duration must be greater than zero")
     private Long durationSeconds;
 
-
+    @PositiveOrZero(message = "Break duration cannot be negative")
     private Long afterServiceBreakDurationSeconds = 0L;
 }
