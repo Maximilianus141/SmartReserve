@@ -9,7 +9,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+//TODO: Think of a better name
 @Data
 @NoArgsConstructor
 @Entity
