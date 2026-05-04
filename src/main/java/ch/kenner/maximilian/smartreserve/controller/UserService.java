@@ -37,7 +37,7 @@ public class UserService {
             return existingUser;
         }).orElseGet(() -> {
             // Create brand new user record locally
-            User newUser = new User(keycloakId, email, username);
+            User newUser = new User(keycloakId, username, email);
             return userRepository.save(newUser);
         });
     }
