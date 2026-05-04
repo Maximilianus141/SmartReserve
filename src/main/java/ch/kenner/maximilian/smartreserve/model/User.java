@@ -1,5 +1,6 @@
 package ch.kenner.maximilian.smartreserve.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "app_user")
 public class User {
     @Id
+    @Schema(hidden = true)
     private String id;
 
     @NotEmpty
