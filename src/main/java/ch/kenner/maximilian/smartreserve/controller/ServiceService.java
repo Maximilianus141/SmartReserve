@@ -29,6 +29,15 @@ public class ServiceService {
         return serviceRepository.save(service);
     }
 
+    public Service updateservice(Service service, Long id) {
+        return serviceRepository.findById(id)
+                .map(departmentOrig -> {
+                    departmentOrig.setName(service.getName());
+                    return serviceRepository.save(departmentOrig);
+                })
+                .orElseGet(() -> serviceRepository.save(service));
+    }
+
     public MessageResponse deleteService(Long id) {
         serviceRepository.deleteById(id);
         return new MessageResponse("Service " + id + " deleted");
