@@ -28,8 +28,8 @@ public class Service {
     private String description;
 
     @NotEmpty
-    private Duration duration;
+    private Long duration;
 
 
-    private Duration afterServiceBreakDuration = Duration.ZERO;
+    private Long afterServiceBreakDuration = 0L;
 }
