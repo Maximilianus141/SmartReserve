@@ -1,9 +1,7 @@
-package ch.kenner.maximilian.smartreserve.controller.reservation;
+package ch.kenner.maximilian.smartreserve.controller.reservation.dto;
 
-import ch.kenner.maximilian.smartreserve.model.reservation.ReservationStatus;
 import ch.kenner.maximilian.smartreserve.model.service.Service;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.ZonedDateTime;

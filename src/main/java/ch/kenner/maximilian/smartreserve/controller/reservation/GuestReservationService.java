@@ -1,6 +1,9 @@
 package ch.kenner.maximilian.smartreserve.controller.reservation;
 
 import ch.kenner.maximilian.smartreserve.base.MessageResponse;
+import ch.kenner.maximilian.smartreserve.controller.reservation.dto.GuestReservationRequestDTO;
+import ch.kenner.maximilian.smartreserve.controller.reservation.dto.MyReservationResponseDTO;
+import ch.kenner.maximilian.smartreserve.controller.reservation.dto.ReservationResponseDTO;
 import ch.kenner.maximilian.smartreserve.controller.service.ServiceService;
 import ch.kenner.maximilian.smartreserve.controller.user.UserService;
 import ch.kenner.maximilian.smartreserve.model.reservation.Reservation;

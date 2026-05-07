@@ -1,6 +1,7 @@
 package ch.kenner.maximilian.smartreserve.controller.reservation;
 
 import ch.kenner.maximilian.smartreserve.base.MessageResponse;
+import ch.kenner.maximilian.smartreserve.controller.reservation.dto.AdminReservationRequestDTO;
 import ch.kenner.maximilian.smartreserve.model.reservation.Reservation;
 import ch.kenner.maximilian.smartreserve.security.Roles;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
