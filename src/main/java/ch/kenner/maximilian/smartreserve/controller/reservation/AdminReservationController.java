@@ -23,31 +23,31 @@ public class AdminReservationController {
     }
 
     @RolesAllowed(Roles.Admin)
-    @GetMapping("api/reservation")
+    @GetMapping("api/admin/reservation")
     public ResponseEntity<List<Reservation>> getAllReservations() {
         return ResponseEntity.ok(adminReservationService.getAllReservations());
     }
 
     @RolesAllowed(Roles.Admin)
-    @GetMapping("api/reservation/{id}")
+    @GetMapping("api/admin/reservation/{id}")
     public ResponseEntity<Reservation> getReservationById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(adminReservationService.getReservationById(id));
     }
 
     @RolesAllowed(Roles.Admin)
-    @PostMapping("api/reservation")
+    @PostMapping("api/admin/reservation")
     public ResponseEntity<Reservation> postReservation(@RequestBody AdminReservationRequestDTO reservation) {
         return ResponseEntity.ok(adminReservationService.insertReservation(reservation));
     }
 
     @RolesAllowed(Roles.Admin)
-    @PutMapping("api/reservation/{id}")
+    @PutMapping("api/admin/reservation/{id}")
     public ResponseEntity<Reservation> putReservation(@PathVariable("id") Long id, @RequestBody AdminReservationRequestDTO reservation) {
         return ResponseEntity.ok(adminReservationService.updateReservation(reservation, id));
     }
 
     @RolesAllowed(Roles.Admin)
-    @DeleteMapping("api/reservation/{id}")
+    @DeleteMapping("api/admin/reservation/{id}")
     public ResponseEntity<MessageResponse> deleteReservation(@PathVariable("id") Long id) {
         return ResponseEntity.ok(adminReservationService.deleteReservation(id));
     }
