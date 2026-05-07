@@ -65,10 +65,10 @@ class RestControllerTests {
 
         String accessToken = obtainAccessToken();
 
-        api.perform(get("/api/vehicle").header("Authorization", "Bearer " + accessToken)
+        api.perform(get("/api/service").header("Authorization", "Bearer " + accessToken)
                         .with(csrf()))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("BL 123")));
+                .andExpect(content().string(containsString("Haircut")));
     }
 
     @Test
@@ -84,13 +84,13 @@ class RestControllerTests {
         String accessToken = obtainAccessToken();
         String body = new ObjectMapper().writeValueAsString(serviceObj2);
 
-        api.perform(post("/api/vehicle")
+        api.perform(post("/api/service")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body)
                         .header("Authorization", "Bearer " + accessToken)
                         .with(csrf()))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Test REST")));
+                .andExpect(content().string(containsString("test Haircut")));
     }
 
     private String obtainAccessToken() {
@@ -108,7 +108,7 @@ class RestControllerTests {
 
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<String> resp = rest.postForEntity("http://localhost:8080/realms/ILV/protocol/openid-connect/token", entity, String.class);
+        ResponseEntity<String> resp = rest.postForEntity("http://localhost:8080/realms/smartreserve/protocol/openid-connect/token", entity, String.class);
 
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resp.getBody()).get("access_token").toString();

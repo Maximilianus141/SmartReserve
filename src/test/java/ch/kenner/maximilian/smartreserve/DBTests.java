@@ -10,7 +10,7 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.test.annotation.Rollback;
 
-@DataJpaTest
+@DataJpaTest()
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(false)
 class DBTests {
@@ -25,14 +25,14 @@ class DBTests {
         serviceObj.setDescription("Haircut");
         serviceObj.setDurationSeconds(180L);
         serviceObj.setAfterServiceBreakDurationSeconds(2L);
-        serviceObj = this.serviceRepository.save(serviceObj);
+        serviceObj = serviceRepository.save(serviceObj);
         Assertions.assertNotNull(serviceObj.getId());
         Service serviceObj2 = new Service();
         serviceObj2.setName("Medium Haircut");
         serviceObj2.setDescription("Medium length haircut");
         serviceObj2.setDurationSeconds(180L);
         serviceObj2.setAfterServiceBreakDurationSeconds(2L);
-        serviceObj2 = this.serviceRepository.save(serviceObj2);
+        serviceObj2 = serviceRepository.save(serviceObj2);
         Assertions.assertNotNull(serviceObj2.getId());
     }
 }
