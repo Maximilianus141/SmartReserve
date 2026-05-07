@@ -1,6 +1,7 @@
 spring:
   application:
     name: smartreserve
+    timezone: Europe/Zurich
   jpa:
     show-sql: true
     generate-ddl: true
