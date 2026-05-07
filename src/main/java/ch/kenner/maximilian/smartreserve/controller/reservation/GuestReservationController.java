@@ -10,16 +10,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @SecurityRequirement(name = "bearerAuth")
 @Validated
 public class GuestReservationController {
 
-    @GetMapping("/api/me/my/reservation")
+
+    private final GuestReservationService guestReservationService;
+
+    public GuestReservationController(GuestReservationService guestReservationService) {
+        this.guestReservationService = guestReservationService;
+    }
+
+
+    @GetMapping("/api/me/reservations")
     @RolesAllowed(Roles.Guest)
-    public void getMyReservations(@AuthenticationPrincipal Jwt jwt) {
-        getMyReservations(jwt);
+    public List<MyReservationResponseDTO> getMyReservations(@AuthenticationPrincipal Jwt jwt) {
+        return guestReservationService.getMyReservations(jwt);
     }
 
 }
