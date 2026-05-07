@@ -29,7 +29,7 @@ public class GuestReservationService {
 
 
     public List<MyReservationResponseDTO> getMyReservations(Jwt jwt) {
-        User user = userService.getUser(jwt);
+        User user = getUser(jwt);
 
         List<Reservation> res = reservationRepository.getReservationsByUser_Id(user.getId());
         return res.stream().map(this::convertToMyReservationResponseDTO).toList();
@@ -41,7 +41,7 @@ public class GuestReservationService {
     }
 
     public MessageResponse cancelMyReservation(Jwt jwt, Long id) {
-        User user = userService.getUser(jwt);
+        User user = getUser(jwt);
         Reservation reservation = reservationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         if (!reservation.getUser().getId().equals(user.getId()))
             throw new IllegalAccessError("Reservation does not belong to user");
@@ -53,7 +53,7 @@ public class GuestReservationService {
 
     public MyReservationResponseDTO postMyReservation(Jwt jwt, GuestReservationRequestDTO reservationRequest) {
         Reservation res = new Reservation();
-        User user = userService.getUser(jwt);
+        User user = getUser(jwt);
         res.setService(serviceService.getServiceById(reservationRequest.getServiceId()));
         res.setStatus(ReservationStatus.PENDING.value);
         res.setStartTime(reservationRequest.getStartTime().atZone(ZoneId.of(timezone)));
@@ -75,6 +75,16 @@ public class GuestReservationService {
         dto.setStatus(reservation.getStatus());
         dto.setStartTime(reservation.getStartTime());
         return dto;
+    }
+
+    private User getUser(Jwt jwt) {
+        User user;
+        try {
+            user = userService.getUser(jwt);
+        } catch (EntityNotFoundException e) {
+            user = userService.syncUserWithKeycloak(jwt);
+        }
+        return user;
     }
 
 
