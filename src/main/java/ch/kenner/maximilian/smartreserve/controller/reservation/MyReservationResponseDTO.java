@@ -11,6 +11,8 @@ import java.time.ZonedDateTime;
 @Data
 public class MyReservationResponseDTO {
     @NotNull
+    private Long id;
+    @NotNull
     private Service service;
     @NotNull
     private String status;

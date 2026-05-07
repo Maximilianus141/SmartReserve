@@ -29,6 +29,7 @@ public class GuestReservationService {
 
     private MyReservationResponseDTO convertToMyReservationResponseDTO(Reservation reservation) {
         MyReservationResponseDTO dto = new MyReservationResponseDTO();
+        dto.setId(reservation.getId());
         dto.setService(reservation.getService());
         dto.setStatus(reservation.getStatus());
         dto.setStartTime(reservation.getStartTime());
