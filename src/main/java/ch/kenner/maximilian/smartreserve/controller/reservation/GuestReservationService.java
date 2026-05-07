@@ -1,5 +1,6 @@
 package ch.kenner.maximilian.smartreserve.controller.reservation;
 
+import ch.kenner.maximilian.smartreserve.base.ReservationConflict;
 import ch.kenner.maximilian.smartreserve.base.MessageResponse;
 import ch.kenner.maximilian.smartreserve.controller.reservation.dto.GuestReservationRequestDTO;
 import ch.kenner.maximilian.smartreserve.controller.reservation.dto.MyReservationResponseDTO;
@@ -17,6 +18,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -54,14 +56,23 @@ public class GuestReservationService {
         return new MessageResponse("Cancelled reservation: " + reservation.getId());
     }
 
-    public MyReservationResponseDTO postMyReservation(Jwt jwt, GuestReservationRequestDTO reservationRequest) {
+    public MyReservationResponseDTO postMyReservation(Jwt jwt, GuestReservationRequestDTO reservationRequest) throws ReservationConflict {
         Reservation res = new Reservation();
-        User user = getUser(jwt);
+
         res.setService(serviceService.getServiceById(reservationRequest.getServiceId()));
+        checkForConflictingReservations(reservationRequest.getStartTime().atZone(ZoneId.of(timezone)), res.getService().getWholeDurationSeconds());
         res.setStatus(ReservationStatus.PENDING.value);
         res.setStartTime(reservationRequest.getStartTime().atZone(ZoneId.of(timezone)));
+
+        User user = getUser(jwt);
         res.setUser(user);
         return convertToMyReservationResponseDTO(reservationRepository.save(res));
+    }
+
+    private void checkForConflictingReservations(ZonedDateTime dateTime, Long durationSeconds) throws ReservationConflict {
+        if (reservationRepository.existsReservationsByStartTimeIsAfterAndStartTimeBefore(dateTime, dateTime.plusSeconds(durationSeconds))) {
+            throw new ReservationConflict("Reservation conflict");
+        }
     }
 
     private ReservationResponseDTO convertToReservationResponseDTO(Reservation reservation) {
