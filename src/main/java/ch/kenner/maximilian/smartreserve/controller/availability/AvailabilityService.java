@@ -1,5 +1,6 @@
-package ch.kenner.maximilian.smartreserve.controller;
+package ch.kenner.maximilian.smartreserve.controller.availability;
 
+import ch.kenner.maximilian.smartreserve.base.TimeFrame;
 import ch.kenner.maximilian.smartreserve.controller.reservation.GuestReservationService;
 import ch.kenner.maximilian.smartreserve.model.reservation.Reservation;
 import ch.kenner.maximilian.smartreserve.model.reservation.ReservationRepository;

@@ -1,4 +1,4 @@
-package ch.kenner.maximilian.smartreserve.controller;
+package ch.kenner.maximilian.smartreserve.base;
 
 import java.time.Instant;
 
