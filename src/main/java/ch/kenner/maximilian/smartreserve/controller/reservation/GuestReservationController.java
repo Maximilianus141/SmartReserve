@@ -1,8 +1,11 @@
 package ch.kenner.maximilian.smartreserve.controller.reservation;
 
+import ch.kenner.maximilian.smartreserve.base.MessageResponse;
 import ch.kenner.maximilian.smartreserve.security.Roles;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.RolesAllowed;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
@@ -26,20 +29,26 @@ public class GuestReservationController {
 
     @GetMapping("/api/me/reservations")
     @RolesAllowed(Roles.Guest)
-    public List<MyReservationResponseDTO> getMyReservations(@AuthenticationPrincipal Jwt jwt) {
-        return guestReservationService.getMyReservations(jwt);
+    public ResponseEntity<List<MyReservationResponseDTO>> getMyReservations(@AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.ok(guestReservationService.getMyReservations(jwt));
     }
 
     @GetMapping("/api/reservations")
     @RolesAllowed(Roles.Guest)
-    public List<ReservationResponseDTO> getReservations(){
-        return guestReservationService.getAllReservations();
+    public ResponseEntity<List<ReservationResponseDTO>> getReservations(){
+        return ResponseEntity.ok(guestReservationService.getAllReservations());
     }
 
     @PostMapping("/api/me/reservation")
     @RolesAllowed(Roles.Guest)
-    public MyReservationResponseDTO postMyReservation(@AuthenticationPrincipal Jwt jwt, @RequestBody GuestReservationRequestDTO reservation) {
-        return guestReservationService.postMyReservation(jwt, reservation);
+    public ResponseEntity<MyReservationResponseDTO> postMyReservation(@AuthenticationPrincipal Jwt jwt, @RequestBody GuestReservationRequestDTO reservation) {
+        return ResponseEntity.ok(guestReservationService.postMyReservation(jwt, reservation));
+    }
+
+    @PatchMapping("/api/me/reservation/{id}/cancel")
+    @RolesAllowed(Roles.Guest)
+    public ResponseEntity<MessageResponse> cancelMyReservation(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
+        return ResponseEntity.ok(guestReservationService.cancelMyReservation(jwt, id));
     }
 
 }

@@ -1,11 +1,13 @@
 package ch.kenner.maximilian.smartreserve.controller.reservation;
 
+import ch.kenner.maximilian.smartreserve.base.MessageResponse;
 import ch.kenner.maximilian.smartreserve.controller.service.ServiceService;
 import ch.kenner.maximilian.smartreserve.controller.user.UserService;
 import ch.kenner.maximilian.smartreserve.model.reservation.Reservation;
 import ch.kenner.maximilian.smartreserve.model.reservation.ReservationRepository;
 import ch.kenner.maximilian.smartreserve.model.reservation.ReservationStatus;
 import ch.kenner.maximilian.smartreserve.model.user.User;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -36,6 +38,17 @@ public class GuestReservationService {
     public List<ReservationResponseDTO> getAllReservations() {
         List<Reservation> res = reservationRepository.getReservationsByStatus(ReservationStatus.CONFIRMED.value);
         return res.stream().map(this::convertToReservationResponseDTO).toList();
+    }
+
+    public MessageResponse cancelMyReservation(Jwt jwt, Long id) {
+        User user = userService.getUser(jwt);
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        if (!reservation.getUser().getId().equals(user.getId()))
+            throw new IllegalAccessError("Reservation does not belong to user");
+
+        reservation.setStatus(ReservationStatus.CANCELLED.value);
+
+        return new MessageResponse("Cancelled reservation: " + reservation.getId());
     }
 
     public MyReservationResponseDTO postMyReservation(Jwt jwt, GuestReservationRequestDTO reservationRequest) {
