@@ -1,25 +1,30 @@
 package ch.kenner.maximilian.smartreserve.controller.reservation;
 
+import ch.kenner.maximilian.smartreserve.controller.service.ServiceService;
 import ch.kenner.maximilian.smartreserve.controller.user.UserService;
 import ch.kenner.maximilian.smartreserve.model.reservation.Reservation;
 import ch.kenner.maximilian.smartreserve.model.reservation.ReservationRepository;
 import ch.kenner.maximilian.smartreserve.model.reservation.ReservationStatus;
 import ch.kenner.maximilian.smartreserve.model.user.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class GuestReservationService {
 
     private final ReservationRepository reservationRepository;
     private final UserService userService;
+    private final ServiceService serviceService;
 
-    GuestReservationService(UserService userService, ReservationRepository reservationRepository) {
-        this.userService = userService;
-        this.reservationRepository = reservationRepository;
-    }
+    @Value("${spring.application.timezone}")
+    private String timezone;
+
 
     public List<MyReservationResponseDTO> getMyReservations(Jwt jwt) {
         User user = userService.getUser(jwt);
@@ -31,6 +36,16 @@ public class GuestReservationService {
     public List<ReservationResponseDTO> getAllReservations() {
         List<Reservation> res = reservationRepository.getReservationsByStatus(ReservationStatus.CONFIRMED.value);
         return res.stream().map(this::convertToReservationResponseDTO).toList();
+    }
+
+    public MyReservationResponseDTO postMyReservation(Jwt jwt, GuestReservationRequestDTO reservationRequest) {
+        Reservation res = new Reservation();
+        User user = userService.getUser(jwt);
+        res.setService(serviceService.getServiceById(reservationRequest.getServiceId()));
+        res.setStatus(ReservationStatus.PENDING.value);
+        res.setStartTime(reservationRequest.getStartTime().atZone(ZoneId.of(timezone)));
+        res.setUser(user);
+        return convertToMyReservationResponseDTO(reservationRepository.save(res));
     }
 
     private ReservationResponseDTO convertToReservationResponseDTO(Reservation reservation) {
