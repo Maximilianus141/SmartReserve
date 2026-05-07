@@ -1,4 +1,4 @@
-package ch.kenner.maximilian.smartreserve.controller.reservation;
+package ch.kenner.maximilian.smartreserve.controller.reservation.dto;
 
 import ch.kenner.maximilian.smartreserve.model.reservation.ReservationStatus;
 import jakarta.validation.constraints.NotNull;

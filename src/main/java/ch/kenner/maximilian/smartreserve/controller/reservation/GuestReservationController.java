@@ -1,6 +1,10 @@
 package ch.kenner.maximilian.smartreserve.controller.reservation;
 
 import ch.kenner.maximilian.smartreserve.base.MessageResponse;
+import ch.kenner.maximilian.smartreserve.base.ReservationConflict;
+import ch.kenner.maximilian.smartreserve.controller.reservation.dto.GuestReservationRequestDTO;
+import ch.kenner.maximilian.smartreserve.controller.reservation.dto.MyReservationResponseDTO;
+import ch.kenner.maximilian.smartreserve.controller.reservation.dto.ReservationResponseDTO;
 import ch.kenner.maximilian.smartreserve.security.Roles;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.RolesAllowed;
@@ -42,7 +46,11 @@ public class GuestReservationController {
     @PostMapping("/api/me/reservation")
     @RolesAllowed(Roles.Guest)
     public ResponseEntity<MyReservationResponseDTO> postMyReservation(@AuthenticationPrincipal Jwt jwt, @RequestBody GuestReservationRequestDTO reservation) {
-        return ResponseEntity.ok(guestReservationService.postMyReservation(jwt, reservation));
+        try {
+            return ResponseEntity.ok(guestReservationService.postMyReservation(jwt, reservation));
+        } catch (ReservationConflict e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     @PatchMapping("/api/me/reservation/{id}/cancel")

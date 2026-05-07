@@ -34,4 +34,8 @@ public class Service {
 
     @PositiveOrZero(message = "Break duration cannot be negative")
     private Long afterServiceBreakDurationSeconds = 0L;
+
+    public Long getWholeDurationSeconds() {
+        return durationSeconds + afterServiceBreakDurationSeconds;
+    }
 }

@@ -33,5 +33,9 @@ public class Reservation {
     @NotNull
     private ZonedDateTime startTime;
 
+    public ZonedDateTime getEndTime() {
+        return startTime.plusSeconds(service.getDurationSeconds());
+    }
+
 
 }
