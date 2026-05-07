@@ -1,4 +1,4 @@
-package ch.kenner.maximilian.smartreserve.model;
+package ch.kenner.maximilian.smartreserve.model.reservation;
 
 public enum ReservationStatus {
     PENDING("PENDING"),

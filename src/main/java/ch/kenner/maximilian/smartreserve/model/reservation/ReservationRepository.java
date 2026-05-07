@@ -1,4 +1,4 @@
-package ch.kenner.maximilian.smartreserve.model;
+package ch.kenner.maximilian.smartreserve.model.reservation;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

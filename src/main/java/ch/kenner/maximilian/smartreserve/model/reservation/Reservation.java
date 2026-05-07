@@ -1,6 +1,8 @@
-package ch.kenner.maximilian.smartreserve.model;
+package ch.kenner.maximilian.smartreserve.model.reservation;
 
 
+import ch.kenner.maximilian.smartreserve.model.service.Service;
+import ch.kenner.maximilian.smartreserve.model.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,6 @@
-package ch.kenner.maximilian.smartreserve.controller;
+package ch.kenner.maximilian.smartreserve.controller.user;
 
-import ch.kenner.maximilian.smartreserve.model.User;
+import ch.kenner.maximilian.smartreserve.model.user.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

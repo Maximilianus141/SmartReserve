@@ -1,7 +1,7 @@
-package ch.kenner.maximilian.smartreserve.controller;
+package ch.kenner.maximilian.smartreserve.controller.service;
 
 import ch.kenner.maximilian.smartreserve.base.MessageResponse;
-import ch.kenner.maximilian.smartreserve.model.Service;
+import ch.kenner.maximilian.smartreserve.model.service.Service;
 import ch.kenner.maximilian.smartreserve.security.Roles;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.RolesAllowed;

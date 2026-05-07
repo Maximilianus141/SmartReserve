@@ -1,6 +1,12 @@
-package ch.kenner.maximilian.smartreserve.controller;
+package ch.kenner.maximilian.smartreserve.controller.reservation;
 
-import ch.kenner.maximilian.smartreserve.model.*;
+import ch.kenner.maximilian.smartreserve.base.MessageResponse;
+import ch.kenner.maximilian.smartreserve.model.reservation.Reservation;
+import ch.kenner.maximilian.smartreserve.model.reservation.ReservationRepository;
+import ch.kenner.maximilian.smartreserve.model.service.Service;
+import ch.kenner.maximilian.smartreserve.model.service.ServiceRepository;
+import ch.kenner.maximilian.smartreserve.model.user.User;
+import ch.kenner.maximilian.smartreserve.model.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -8,7 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @org.springframework.stereotype.Service
-public class ReservationService {
+public class AdminReservationService {
 
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
@@ -23,7 +29,7 @@ public class ReservationService {
         return reservationRepository.findById(id).orElse(null);
     }
 
-    public Reservation insertReservation(ReservationRequestDTO dto) {
+    public Reservation insertReservation(AdminReservationRequestDTO dto) {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
@@ -39,12 +45,17 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public Reservation updateReservation(ReservationRequestDTO dto, Long id) {
+    public Reservation updateReservation(AdminReservationRequestDTO dto, Long id) {
         return reservationRepository.findById(id)
                 .map(reservationOrig -> {
                     reservationOrig.setStatus(dto.getStatus());
                     reservationOrig.setStartTime(dto.getStartTime());
                     return reservationRepository.save(reservationOrig);
                 }).orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+    }
+
+    public MessageResponse deleteReservation(Long id) {
+        reservationRepository.deleteById(id);
+        return new MessageResponse("Reservation " + id + " deleted");
     }
 }

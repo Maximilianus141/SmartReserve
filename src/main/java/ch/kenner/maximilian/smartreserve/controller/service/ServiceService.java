@@ -1,8 +1,8 @@
-package ch.kenner.maximilian.smartreserve.controller;
+package ch.kenner.maximilian.smartreserve.controller.service;
 
 import ch.kenner.maximilian.smartreserve.base.MessageResponse;
-import ch.kenner.maximilian.smartreserve.model.Service;
-import ch.kenner.maximilian.smartreserve.model.ServiceRepository;
+import ch.kenner.maximilian.smartreserve.model.service.Service;
+import ch.kenner.maximilian.smartreserve.model.service.ServiceRepository;
 
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package ch.kenner.maximilian.smartreserve.controller;
+package ch.kenner.maximilian.smartreserve.controller.user;
 
-import ch.kenner.maximilian.smartreserve.model.User;
-import ch.kenner.maximilian.smartreserve.model.UserRepository;
+import ch.kenner.maximilian.smartreserve.model.user.User;
+import ch.kenner.maximilian.smartreserve.model.user.UserRepository;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
