@@ -23,7 +23,7 @@ public class AdminReservationController {
     }
 
     @RolesAllowed(Roles.Admin)
-    @GetMapping("api/admin/reservation")
+    @GetMapping("api/admin/reservations")
     public ResponseEntity<List<Reservation>> getAllReservations() {
         return ResponseEntity.ok(adminReservationService.getAllReservations());
     }
