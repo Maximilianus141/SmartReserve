@@ -3,6 +3,7 @@ package ch.kenner.maximilian.smartreserve.controller.reservation;
 import ch.kenner.maximilian.smartreserve.controller.user.UserService;
 import ch.kenner.maximilian.smartreserve.model.reservation.Reservation;
 import ch.kenner.maximilian.smartreserve.model.reservation.ReservationRepository;
+import ch.kenner.maximilian.smartreserve.model.reservation.ReservationStatus;
 import ch.kenner.maximilian.smartreserve.model.user.User;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,18 @@ public class GuestReservationService {
         return res.stream().map(this::convertToMyReservationResponseDTO).toList();
     }
 
+    public List<ReservationResponseDTO> getAllReservations() {
+        List<Reservation> res = reservationRepository.getReservationsByStatus(ReservationStatus.CONFIRMED.value);
+        return res.stream().map(this::convertToReservationResponseDTO).toList();
+    }
+
+    private ReservationResponseDTO convertToReservationResponseDTO(Reservation reservation) {
+        ReservationResponseDTO dto = new ReservationResponseDTO();
+        dto.setId(reservation.getId());
+        dto.setDurationSeconds(reservation.getService().getDurationSeconds());
+        dto.setStart(reservation.getStartTime());
+        return dto;
+    }
     private MyReservationResponseDTO convertToMyReservationResponseDTO(Reservation reservation) {
         MyReservationResponseDTO dto = new MyReservationResponseDTO();
         dto.setId(reservation.getId());

@@ -32,4 +32,10 @@ public class GuestReservationController {
         return guestReservationService.getMyReservations(jwt);
     }
 
+    @GetMapping("/api/reservations")
+    @RolesAllowed(Roles.Guest)
+    public List<ReservationResponseDTO> getReservations(){
+        return guestReservationService.getAllReservations();
+    }
+
 }
