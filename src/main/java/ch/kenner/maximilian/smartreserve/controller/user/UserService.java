@@ -15,6 +15,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User getUser(Jwt jwt) {
+        return userRepository.findById(jwt.getSubject()).orElse(null);
+    }
+
     @Transactional
     public User syncUserWithKeycloak(Jwt jwt) {
         // The 'sub' claim is the unique Keycloak user ID
