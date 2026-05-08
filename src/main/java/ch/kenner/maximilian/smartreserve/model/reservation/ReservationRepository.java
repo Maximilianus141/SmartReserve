@@ -9,11 +9,14 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    List<Reservation> getReservationsByUser_Id(String userId);
+    List<Reservation> getReservationsByUser_IdOrderByStartTimeAsc(String userId);
+    List<Reservation> findByOrderByStartTimeAsc();
+    List<Reservation> getReservationsByStatusOrderByStartTimeAsc(String status);
 
     List<Reservation> getReservationsByStatus(String status);
 
     boolean existsReservationsByStartTimeIsAfterAndStartTimeBefore(ZonedDateTime startTimeAfter, ZonedDateTime startTimeBefore);
 
     List<Reservation> getReservationsByStartTimeIsAfterAndStartTimeBefore(ZonedDateTime startTimeAfter, ZonedDateTime startTimeBefore);
+    boolean existsByStartTimeBeforeAndEndTimeAfter(ZonedDateTime endTime, ZonedDateTime startTime);
 }

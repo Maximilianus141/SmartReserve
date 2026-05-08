@@ -4,11 +4,13 @@ import ch.kenner.maximilian.smartreserve.model.reservation.ReservationStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AdminReservationRequestDTO {
     @NotNull
     private String userId;

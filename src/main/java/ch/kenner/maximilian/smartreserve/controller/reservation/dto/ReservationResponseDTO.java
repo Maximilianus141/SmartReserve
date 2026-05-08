@@ -8,9 +8,11 @@ import java.time.ZonedDateTime;
 @Data
 public class ReservationResponseDTO {
     @NotNull
-    public Long id;
+    private Long id;
     @NotNull
-    public Long DurationSeconds;
+    private Long durationSeconds;
     @NotNull
-    public ZonedDateTime Start;
+    private ZonedDateTime startTime;
+    @NotNull
+    private ZonedDateTime endTime;
 }

@@ -56,7 +56,11 @@ public class GuestReservationController {
     @PatchMapping("/api/me/reservation/{id}/cancel")
     @RolesAllowed(Roles.Guest)
     public ResponseEntity<MessageResponse> cancelMyReservation(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
-        return ResponseEntity.ok(guestReservationService.cancelMyReservation(jwt, id));
+        try {
+            return ResponseEntity.ok(guestReservationService.cancelMyReservation(jwt, id));
+        } catch (IllegalAccessError e) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
 }

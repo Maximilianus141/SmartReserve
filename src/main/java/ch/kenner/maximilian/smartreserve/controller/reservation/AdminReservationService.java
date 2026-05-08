@@ -21,9 +21,8 @@ public class AdminReservationService {
     private final UserRepository userRepository;
     private final ServiceRepository serviceRepository;
 
-    // TODO: Sort by date
     public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
+        return reservationRepository.findByOrderByStartTimeAsc();
     }
 
     public Reservation getReservationById(Long id) {

@@ -33,9 +33,13 @@ public class Reservation {
     @NotNull
     private ZonedDateTime startTime;
 
-    public ZonedDateTime getEndTime() {
-        return startTime.plusSeconds(service.getDurationSeconds());
+    @NotNull
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Calculated end time of the reservation")
+    private ZonedDateTime endTime;
+
+    @PrePersist
+    @PreUpdate
+    private void calculateEndTime() {
+        endTime = startTime.plusSeconds(service.getWholeDurationSeconds());
     }
-
-
 }
