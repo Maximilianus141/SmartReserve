@@ -36,12 +36,12 @@ public class GuestReservationService {
     public List<MyReservationResponseDTO> getMyReservations(Jwt jwt) {
         User user = getUser(jwt);
 
-        List<Reservation> res = reservationRepository.getReservationsByUser_Id(user.getId());
+        List<Reservation> res = reservationRepository.getReservationsByUser_IdOrderByStartTimeAsc(user.getId());
         return res.stream().map(this::convertToMyReservationResponseDTO).toList();
     }
 
     public List<ReservationResponseDTO> getAllReservations() {
-        List<Reservation> res = reservationRepository.getReservationsByStatus(ReservationStatus.CONFIRMED.value);
+        List<Reservation> res = reservationRepository.getReservationsByStatusOrderByStartTimeAsc(ReservationStatus.CONFIRMED.value);
         return res.stream().map(this::convertToReservationResponseDTO).toList();
     }
 
