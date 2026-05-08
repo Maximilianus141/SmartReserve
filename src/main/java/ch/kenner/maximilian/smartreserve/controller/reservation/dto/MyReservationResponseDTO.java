@@ -16,4 +16,6 @@ public class MyReservationResponseDTO {
     private String status;
     @NotNull
     private ZonedDateTime startTime;
+    @NotNull
+    private ZonedDateTime endTime;
 }
