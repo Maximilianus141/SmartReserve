@@ -13,5 +13,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findByOrderByStartTimeAsc();
     List<Reservation> getReservationsByStatusOrderByStartTimeAsc(String status);
 
-    boolean existsReservationsByStartTimeIsAfterAndStartTimeBefore(ZonedDateTime startTimeAfter, ZonedDateTime startTimeBefore);
+    boolean existsByStartTimeBeforeAndEndTimeAfter(ZonedDateTime endTime, ZonedDateTime startTime);
 }

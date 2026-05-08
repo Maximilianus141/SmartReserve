@@ -13,11 +13,9 @@ import ch.kenner.maximilian.smartreserve.model.reservation.ReservationStatus;
 import ch.kenner.maximilian.smartreserve.model.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -28,9 +26,6 @@ public class GuestReservationService {
     private final ReservationRepository reservationRepository;
     private final UserService userService;
     private final ServiceService serviceService;
-
-    @Value("${spring.application.timezone}")
-    private String timezone;
 
 
     public List<MyReservationResponseDTO> getMyReservations(Jwt jwt) {
@@ -60,17 +55,21 @@ public class GuestReservationService {
         Reservation res = new Reservation();
 
         res.setService(serviceService.getServiceById(reservationRequest.getServiceId()));
-        checkForConflictingReservations(reservationRequest.getStartTime().atZone(ZoneId.of(timezone)), res.getService().getWholeDurationSeconds());
+        ZonedDateTime startTime = reservationRequest.getStartTime();
+        ZonedDateTime endTime = startTime.plusSeconds(res.getService().getWholeDurationSeconds());
+
+        checkForConflictingReservations(startTime, endTime);
+
         res.setStatus(ReservationStatus.PENDING.value);
-        res.setStartTime(reservationRequest.getStartTime().atZone(ZoneId.of(timezone)));
+        res.setStartTime(startTime);
 
         User user = getUser(jwt);
         res.setUser(user);
         return convertToMyReservationResponseDTO(reservationRepository.save(res));
     }
 
-    private void checkForConflictingReservations(ZonedDateTime dateTime, Long durationSeconds) throws ReservationConflict {
-        if (reservationRepository.existsReservationsByStartTimeIsAfterAndStartTimeBefore(dateTime, dateTime.plusSeconds(durationSeconds))) {
+    private void checkForConflictingReservations(ZonedDateTime requestedStart, ZonedDateTime requestedEnd) throws ReservationConflict {
+        if (reservationRepository.existsByStartTimeBeforeAndEndTimeAfter(requestedEnd, requestedStart)) {
             throw new ReservationConflict("Reservation conflict");
         }
     }
@@ -79,7 +78,8 @@ public class GuestReservationService {
         ReservationResponseDTO dto = new ReservationResponseDTO();
         dto.setId(reservation.getId());
         dto.setDurationSeconds(reservation.getService().getDurationSeconds());
-        dto.setStart(reservation.getStartTime());
+        dto.setStartTime(reservation.getStartTime());
+        dto.setEndTime(reservation.getEndTime());
         return dto;
     }
     private MyReservationResponseDTO convertToMyReservationResponseDTO(Reservation reservation) {
@@ -88,6 +88,7 @@ public class GuestReservationService {
         dto.setService(reservation.getService());
         dto.setStatus(reservation.getStatus());
         dto.setStartTime(reservation.getStartTime());
+        dto.setEndTime(reservation.getEndTime());
         return dto;
     }
 
