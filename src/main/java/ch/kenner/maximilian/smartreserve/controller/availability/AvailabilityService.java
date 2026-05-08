@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +27,7 @@ public class AvailabilityService {
 
 
     public List<TimeFrame> getAvailableTimeFrames(LocalDate date) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(date, LocalTime.from(date.atStartOfDay()), timezone);
         List<Reservation> res = reservationRepository.getReservationsByStartTimeIsAfterAndStartTimeBefore(
                 date.atStartOfDay().atZone(timezone),
                 date.plusDays(1).atStartOfDay().atZone(timezone));
@@ -34,19 +37,19 @@ public class AvailabilityService {
         temp.setStartTime(date.atStartOfDay().plusDays(1).atZone(timezone));
 
         res.add(temp);
-
         List<TimeFrame> timeFrames = new ArrayList<>();
-
+        Reservation lastReservation = null;
         for (Reservation reservation : res) {
 
             TimeFrame timeFrame = new TimeFrame();
 
             if (timeFrames.isEmpty())
-                timeFrame.startTime = date.atStartOfDay().toInstant(timezone.getRules().getOffset(timeFrame.startTime));
+                timeFrame.startTime = date.atStartOfDay();
             else
-                timeFrame.startTime = reservation.getEndTime().toInstant();
+                timeFrame.startTime = lastReservation.getEndTime().toLocalDateTime();
 
-            timeFrame.endTime = reservation.getStartTime().toInstant();
+            timeFrame.endTime = reservation.getStartTime().toLocalDateTime();
+            lastReservation = reservation;
             timeFrames.add(timeFrame);
         }
         return timeFrames;

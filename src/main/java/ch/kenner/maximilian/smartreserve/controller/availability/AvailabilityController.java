@@ -21,8 +21,10 @@ import java.util.List;
 @Validated
 public class AvailabilityController {
 
+    private final AvailabilityService availabilityService;
+
     @GetMapping("/{date}")
     public ResponseEntity<List<TimeFrame>> getAvailability(@PathVariable LocalDate date) {
-        return ResponseEntity.ok(List.of());
+        return ResponseEntity.ok(availabilityService.getAvailableTimeFrames(date));
     }
 }
