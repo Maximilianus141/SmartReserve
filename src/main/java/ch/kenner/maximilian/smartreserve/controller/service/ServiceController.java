@@ -23,13 +23,11 @@ public class ServiceController {
     }
 
     @GetMapping("api/service")
-    @RolesAllowed(Roles.Guest)
     public ResponseEntity<List<Service>> getAllServices() {
         return ResponseEntity.ok(serviceService.getAllServices());
     }
 
     @GetMapping("api/service/{id}")
-    @RolesAllowed(Roles.Guest)
     public ResponseEntity<Service> getServiceById(@PathVariable Long id) {
         return ResponseEntity.ok(serviceService.getServiceById(id));
     }
