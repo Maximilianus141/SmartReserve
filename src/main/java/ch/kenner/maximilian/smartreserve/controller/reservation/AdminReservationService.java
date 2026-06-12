@@ -48,6 +48,14 @@ public class AdminReservationService {
     public Reservation updateReservation(AdminReservationRequestDTO dto, Long id) {
         return reservationRepository.findById(id)
                 .map(reservationOrig -> {
+                    User user = userRepository.findById(dto.getUserId())
+                            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+                    Service service = serviceRepository.findById(dto.getServiceId())
+                            .orElseThrow(() -> new EntityNotFoundException("Service not found"));
+
+                    reservationOrig.setUser(user);
+                    reservationOrig.setService(service);
                     reservationOrig.setStatus(dto.getStatus());
                     reservationOrig.setStartTime(dto.getStartTime());
                     return reservationRepository.save(reservationOrig);

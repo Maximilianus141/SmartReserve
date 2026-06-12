@@ -31,11 +31,17 @@ public class ServiceService {
 
     public Service updateservice(Service service, Long id) {
         return serviceRepository.findById(id)
-                .map(departmentOrig -> {
-                    departmentOrig.setName(service.getName());
-                    return serviceRepository.save(departmentOrig);
+                .map(serviceOrig -> {
+                    serviceOrig.setName(service.getName());
+                    serviceOrig.setDescription(service.getDescription());
+                    serviceOrig.setDurationSeconds(service.getDurationSeconds());
+                    serviceOrig.setAfterServiceBreakDurationSeconds(service.getAfterServiceBreakDurationSeconds());
+                    return serviceRepository.save(serviceOrig);
                 })
-                .orElseGet(() -> serviceRepository.save(service));
+                .orElseGet(() -> {
+                    service.setId(id);
+                    return serviceRepository.save(service);
+                });
     }
 
     public MessageResponse deleteService(Long id) {
