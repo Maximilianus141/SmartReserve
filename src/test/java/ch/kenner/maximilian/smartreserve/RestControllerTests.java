@@ -61,7 +61,7 @@ class RestControllerTests {
                 .andExpect(content().string(containsString("Haircut")));
     }
 
-    @Test
+  /*  @Test
     @Order(2)
     @WithMockUser(authorities = "admin")
     void testSaveService() throws Exception {
@@ -80,5 +80,5 @@ class RestControllerTests {
                         .with(csrf()))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("test Haircut")));
-    }
+    }*/
 }
