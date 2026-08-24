@@ -135,6 +135,38 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Mutation Testing (PIT) – LB1 Auftrag 2 -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.19.4</version>
+                <configuration>
+                    <targetClasses>
+                        <param>ch.kenner.maximilian.smartreserve.service.ValidationService</param>
+                        <param>ch.kenner.maximilian.smartreserve.controller.availability.AvailabilityService</param>
+                        <param>ch.kenner.maximilian.smartreserve.controller.reservation.GuestReservationService</param>
+                        <param>ch.kenner.maximilian.smartreserve.controller.reservation.AdminReservationService</param>
+                        <param>ch.kenner.maximilian.smartreserve.model.service.Service</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>ch.kenner.maximilian.smartreserve.service.ValidationServiceTest</param>
+                        <param>ch.kenner.maximilian.smartreserve.controller.availability.AvailabilityServiceTest</param>
+                        <param>ch.kenner.maximilian.smartreserve.controller.reservation.GuestReservationServiceTest</param>
+                        <param>ch.kenner.maximilian.smartreserve.controller.reservation.AdminReservationServiceTest</param>
+                        <param>ch.kenner.maximilian.smartreserve.model.service.ServiceTest</param>
+                    </targetTests>
+                    <mutators>
+                        <mutator>DEFAULTS</mutator>
+                    </mutators>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.2.2</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
