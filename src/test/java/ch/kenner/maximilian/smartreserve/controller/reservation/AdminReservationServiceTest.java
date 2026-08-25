@@ -73,6 +73,7 @@ class AdminReservationServiceTest {
 
         EntityNotFoundException ex = assertThrows(EntityNotFoundException.class,
                 () -> adminReservationService.insertReservation(dto("unknown", 1L)));
+
         assertEquals("User not found", ex.getMessage());
     }
 
